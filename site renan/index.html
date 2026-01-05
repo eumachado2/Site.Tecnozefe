@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TecnoZefe | Inovação e Tecnologia</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body { background-color: #020617; color: #f8fafc; font-family: 'Inter', sans-serif; }
+        .tech-gradient { background: linear-gradient(135deg, #0ea5e9, #6366f1); }
+        .glass { background: rgba(30, 41, 59, 0.7) ; backdrop-filter: blur(10px); }
+        html { scroll-behavior: smooth; }
+        .card-review { background: rgba(15, 23, 42, 0.5); border: 1px solid rgba(51, 65, 85, 0.5); }
+        /* Cor dourada para as estrelas */
+        .star-active { color: #fbcfe8; color: #fbbf24; } 
+    </style>
+</head>
+<body class="antialiased">
+
+    <nav class="sticky top-0 z-50 glass border-b border-slate-800 p-4">
+        <div class="max-w-6xl mx-auto flex justify-between items-center">
+            <h1 class="text-3xl font-black tracking-tighter text-white">
+                TECNO<span class="text-blue-500">ZEFE</span>
+            </h1>
+            <div class="flex items-center space-x-6">
+                <div class="relative cursor-pointer" onclick="goToCart()">
+                    <i class="fa-solid fa-cart-shopping text-xl hover:text-blue-400 transition-all"></i>
+                    <span id="cart-count" class="absolute -top-2 -right-2 bg-blue-600 text-[10px] font-bold px-1.5 py-0.5 rounded-full">0</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <header class="max-w-6xl mx-auto px-6 py-24 text-center">
+        <span class="px-4 py-1 rounded-full border border-blue-500 text-blue-400 text-sm font-medium mb-4 inline-block uppercase tracking-widest">Bem-Vindo!</span>
+        <h2 class="text-5xl md:text-7xl font-extrabold mb-6 tracking-tight">O futuro é <br> <span class="text-blue-500">TecnoZefe.</span></h2>
+        <p class="text-slate-400 text-lg mb-10 max-w-2xl mx-auto">Hardware e gadgets de alta performance com curadoria especializada.</p>
+        <a href="produtos.html" class="tech-gradient px-12 py-4 rounded-xl font-bold text-lg hover:shadow-[0_0_30px_rgba(14,165,233,0.4)] transition-all inline-block">
+            Ver Todos os Produtos
+        </a>
+    </header>
+
+    <main id="loja" class="max-w-6xl mx-auto px-6 py-12">
+        <h3 class="text-2xl font-bold mb-8 italic text-blue-400 uppercase tracking-widest text-center md:text-left">Destaques da Semana</h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="bg-slate-900 rounded-3xl p-6 border border-slate-800 hover:border-blue-500/50 transition-all group">
+                <div class="h-56 bg-slate-800 rounded-2xl mb-6 overflow-hidden flex items-center justify-center">
+                    <img src="img/img.png" alt="Airpods Pro" class="w-full h-full object-cover group-hover:scale-110 transition-transform">
+                </div>
+                <h4 class="text-xl font-bold">Airpods Pro</h4>
+                <div class="flex justify-between items-center pt-4 mt-4 border-t border-slate-800">
+                    <span class="text-2xl font-black italic">R$ 79,99</span>
+                    <button onclick="addToCart('Airpods Pro', 79.99)" class="bg-blue-600 px-4 py-2 rounded-lg font-bold hover:bg-blue-500 transition-colors">Comprar</button>
+                </div>
+            </div>
+            <div class="bg-slate-900 rounded-3xl p-6 border border-slate-800 hover:border-blue-500/50 transition-all group">
+                <div class="h-56 bg-slate-800 rounded-2xl mb-6 overflow-hidden flex items-center justify-center">
+                    <img src="img/img2.png" alt="Carregador Turbo" class="w-full h-full object-cover group-hover:scale-110 transition-transform">
+                </div>
+                <h4 class="text-xl font-bold">Carregador Portátil Turbo</h4>
+                <div class="flex justify-between items-center pt-4 mt-4 border-t border-slate-800">
+                    <span class="text-2xl font-black italic">R$ 79,90</span>
+                    <button onclick="addToCart('Carregador Portátil Turbo', 79.90)" class="bg-blue-600 px-4 py-2 rounded-lg font-bold hover:bg-blue-500 transition-colors">Comprar</button>
+                </div>
+            </div>
+            <div class="bg-slate-900 rounded-3xl p-6 border border-slate-800 hover:border-blue-500/50 transition-all group">
+                <div class="h-56 bg-slate-800 rounded-2xl mb-6 overflow-hidden flex items-center justify-center">
+                    <img src="img/img3.png" alt="Smart Watch T800" class="w-full h-full object-cover group-hover:scale-110 transition-transform">
+                </div>
+                <h4 class="text-xl font-bold">Smart Watch T800</h4>
+                <div class="flex justify-between items-center pt-4 mt-4 border-t border-slate-800">
+                    <span class="text-2xl font-black italic">R$ 89,90</span>
+                    <button onclick="addToCart('Smart Watch T800', 89.90)" class="bg-blue-600 px-4 py-2 rounded-lg font-bold hover:bg-blue-500 transition-colors">Comprar</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <section class="max-w-6xl mx-auto px-6 py-16 border-t border-slate-900">
+        <h3 class="text-2xl font-bold mb-10 text-center uppercase tracking-tighter">Agradecimentos de <span class="text-blue-500">Clientes</span></h3>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
+            <div class="card-review p-6 rounded-2xl shadow-lg">
+                <div class="flex text-yellow-500 mb-3 text-xs gap-1">
+                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                </div>
+                <p class="text-slate-300 text-sm italic mb-4">"O Airpods Pro é sensacional! Chegou muito rápido e o atendimento pelo WhatsApp foi nota 10."</p>
+                <p class="text-blue-400 font-bold text-xs uppercase tracking-widest">— Lucas Ferreira</p>
+            </div>
+            <div class="card-review p-6 rounded-2xl shadow-lg">
+                <div class="flex text-yellow-500 mb-3 text-xs gap-1">
+                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                </div>
+                <p class="text-slate-300 text-sm italic mb-4">"Melhor loja de acessórios que já comprei. O carregador turbo realmente é rápido. Parabéns TecnoZefe!"</p>
+                <p class="text-blue-400 font-bold text-xs uppercase tracking-widest">— Mariana Souza</p>
+            </div>
+            <div class="card-review p-6 rounded-2xl shadow-lg">
+                <div class="flex text-yellow-500 mb-3 text-xs gap-1">
+                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                </div>
+                <p class="text-slate-300 text-sm italic mb-4">"O Smart Watch T800 é lindo e funciona perfeitamente. Voltarei a comprar com certeza."</p>
+                <p class="text-blue-400 font-bold text-xs uppercase tracking-widest">— Pedro Oliveira</p>
+            </div>
+        </div>
+
+        <div class="max-w-2xl mx-auto bg-slate-900 rounded-3xl p-8 border border-slate-800 shadow-2xl">
+            <h4 class="text-xl font-bold mb-6 text-center italic">Conte sua experiência</h4>
+            <div class="space-y-4">
+                <input type="text" id="feedback-nome" placeholder="Seu Nome" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-4 text-sm focus:border-blue-500 outline-none transition-all">
+                
+                <div class="flex justify-center gap-3 text-3xl py-4" id="star-rating">
+                    <i class="fa-solid fa-star cursor-pointer text-slate-700 hover:text-yellow-500 transition-all" onclick="setRating(1)"></i>
+                    <i class="fa-solid fa-star cursor-pointer text-slate-700 hover:text-yellow-500 transition-all" onclick="setRating(2)"></i>
+                    <i class="fa-solid fa-star cursor-pointer text-slate-700 hover:text-yellow-500 transition-all" onclick="setRating(3)"></i>
+                    <i class="fa-solid fa-star cursor-pointer text-slate-700 hover:text-yellow-500 transition-all" onclick="setRating(4)"></i>
+                    <i class="fa-solid fa-star cursor-pointer text-slate-700 hover:text-yellow-500 transition-all" onclick="setRating(5)"></i>
+                </div>
+
+                <textarea id="feedback-texto" rows="3" placeholder="O que achou dos produtos e do nosso atendimento?" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-4 text-sm focus:border-blue-500 outline-none transition-all"></textarea>
+
+                <button onclick="enviarFeedback()" class="w-full bg-blue-600 hover:bg-blue-500 py-4 rounded-xl font-black italic transition-all shadow-lg shadow-blue-900/20">
+                    ENVIAR AGRADECIMENTO
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <footer class="text-center py-12 text-slate-600 border-t border-slate-900 mt-10">
+        <h3 class="text-xl font-bold text-white mb-4 italic uppercase tracking-tighter">TECNO<span class="text-blue-500">ZEFE</span></h3>
+        <div class="flex justify-center space-x-6 mb-4 text-2xl">
+            <i class="fa-brands fa-instagram hover:text-white cursor-pointer"></i>
+            <i class="fa-brands fa-whatsapp hover:text-green-500 cursor-pointer"></i>
+        </div>
+        <p class="text-[10px] uppercase tracking-widest">© 2024 TecnoZefe - Todos os direitos reservados</p>
+    </footer>
+
+    <script>
+        // CARRINHO
+        let cart = JSON.parse(localStorage.getItem('tecnoZefe_cart')) || [];
+        updateCartCount();
+
+        function addToCart(name, price) {
+            cart.push({name, price});
+            localStorage.setItem('tecnoZefe_cart', JSON.stringify(cart));
+            updateCartCount();
+            alert(`✅ ${name} adicionado ao carrinho!`);
+        }
+
+        function updateCartCount() {
+            document.getElementById('cart-count').innerText = cart.length;
+        }
+
+        function goToCart() {
+            if(cart.length === 0) {
+                alert("Seu carrinho está vazio!");
+            } else {
+                window.location.href = 'carrinho.html';
+            }
+        }
+
+        // LÓGICA DE AVALIAÇÃO (ÍCONES FONT AWESOME)
+        let currentRating = 0;
+        function setRating(rating) {
+            currentRating = rating;
+            const stars = document.querySelectorAll('#star-rating i');
+            stars.forEach((star, index) => {
+                if (index < rating) {
+                    star.classList.remove('text-slate-700');
+                    star.classList.add('text-yellow-500');
+                } else {
+                    star.classList.remove('text-yellow-500');
+                    star.classList.add('text-slate-700');
+                }
+            });
+        }
+
+        function enviarFeedback() {
+            const nome = document.getElementById('feedback-nome').value;
+            const texto = document.getElementById('feedback-texto').value;
+            if (!nome || !texto || currentRating === 0) {
+                alert("Preencha todos os campos e escolha as estrelas!");
+                return;
+            }
+            
+            // Aqui montamos a mensagem para o WhatsApp
+            // Como no WhatsApp o emoji de estrela funciona bem, mantivemos ele na mensagem
+            const starsText = "⭐".repeat(currentRating);
+            const msg = `*NOVO AGRADECIMENTO - TECNOZEFE*\n\n*Cliente:* ${nome}\n*Nota:* ${starsText}\n*Comentário:* ${texto}`;
+            window.open(`https://wa.me/5521986386198?text=${encodeURIComponent(msg)}`);
+        }
+    </script>
+</body>
+</html>

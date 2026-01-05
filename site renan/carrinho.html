@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meu Carrinho | TecnoZefe</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body { background-color: #020617; color: #f8fafc; font-family: 'Inter', sans-serif; }
+        .tech-gradient { background: linear-gradient(135deg, #0ea5e9, #6366f1); }
+        .glass { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(10px); }
+        
+        /* Estilização dos Seletores de Pagamento em Lista */
+        .metodo-pagamento input { display: none; }
+        .metodo-pagamento input:checked + div { 
+            border-color: #3b82f6; 
+            background: rgba(59, 130, 246, 0.15);
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.2);
+        }
+        .metodo-pagamento input:checked + div i { color: #3b82f6; }
+        .metodo-pagamento input:checked + div span { color: #f8fafc; }
+    </style>
+</head>
+<body class="p-4 py-12 min-h-screen flex items-center justify-center">
+
+    <div class="w-full max-w-md bg-slate-900 rounded-3xl p-6 border border-slate-800 shadow-2xl">
+        <div class="text-center mb-8">
+            <h2 class="text-2xl font-black italic tech-gradient bg-clip-text text-transparent inline-block">MEU CARRINHO</h2>
+            <p class="text-slate-500 text-xs mt-1 uppercase tracking-widest font-bold">Revise seu pedido antes de finalizar</p>
+        </div>
+
+        <div id="lista-carrinho" class="space-y-3 mb-8 max-h-[250px] overflow-y-auto pr-2 border-b border-slate-800 pb-4"></div>
+
+        <div class="mb-6">
+            <div class="flex justify-between items-center mb-2">
+                <span class="text-slate-400">Subtotal:</span>
+                <span id="subtotal" class="font-bold">R$ 0,00</span>
+            </div>
+            <div class="flex justify-between items-center">
+                <span class="text-white font-black text-lg">TOTAL:</span>
+                <span id="total-final" class="text-blue-400 font-black text-2xl tracking-tighter text-right">R$ 0,00</span>
+            </div>
+        </div>
+
+        <div class="mb-6">
+            <label class="text-xs font-bold text-slate-500 uppercase block mb-2 tracking-widest">Endereço de Entrega:</label>
+            <input type="text" id="entrega-rua" placeholder="Rua e Número" class="w-full bg-slate-800 border border-slate-700 rounded-t-xl p-3 text-sm focus:border-blue-500 outline-none mb-[1px]">
+            <input type="text" id="entrega-bairro" placeholder="Bairro / Ponto de Referência" class="w-full bg-slate-800 border border-slate-700 rounded-b-xl p-3 text-sm focus:border-blue-500 outline-none">
+        </div>
+
+        <div class="mb-6">
+            <label class="text-xs font-bold text-slate-500 uppercase block mb-2 tracking-widest">Forma de Pagamento:</label>
+            <div class="flex flex-col gap-2">
+                <label class="metodo-pagamento cursor-pointer">
+                    <input type="radio" name="pagamento" value="PIX" checked>
+                    <div class="p-4 bg-slate-800/50 border border-slate-700 rounded-xl flex items-center gap-4 transition-all">
+                        <i class="fa-solid fa-pix text-xl w-6 text-center"></i>
+                        <span class="font-bold text-sm uppercase text-slate-400 tracking-wider">PIX</span>
+                    </div>
+                </label>
+
+                <label class="metodo-pagamento cursor-pointer">
+                    <input type="radio" name="pagamento" value="Cartão de Crédito">
+                    <div class="p-4 bg-slate-800/50 border border-slate-700 rounded-xl flex items-center gap-4 transition-all">
+                        <i class="fa-solid fa-credit-card text-xl w-6 text-center"></i>
+                        <span class="font-bold text-sm uppercase text-slate-400 tracking-wider">Cartão de Crédito</span>
+                    </div>
+                </label>
+
+                <label class="metodo-pagamento cursor-pointer">
+                    <input type="radio" name="pagamento" value="Cartão de Débito">
+                    <div class="p-4 bg-slate-800/50 border border-slate-700 rounded-xl flex items-center gap-4 transition-all">
+                        <i class="fa-solid fa-credit-card text-xl w-6 text-center"></i>
+                        <span class="font-bold text-sm uppercase text-slate-400 tracking-wider">Cartão de Débito</span>
+                    </div>
+                </label>
+
+                <label class="metodo-pagamento cursor-pointer">
+                    <input type="radio" name="pagamento" value="Dinheiro">
+                    <div class="p-4 bg-slate-800/50 border border-slate-700 rounded-xl flex items-center gap-4 transition-all">
+                        <i class="fa-solid fa-money-bill-1-wave text-xl w-6 text-center"></i>
+                        <span class="font-bold text-sm uppercase text-slate-400 tracking-wider">Dinheiro</span>
+                    </div>
+                </label>
+            </div>
+        </div>
+
+        <div class="mb-8">
+            <label class="text-xs font-bold text-slate-500 uppercase block mb-2 tracking-widest">Observações / Troco:</label>
+            <textarea id="cliente-obs" rows="2" placeholder="Ex: Preciso de troco para R$ 100,00 ou pulseira azul..." class="w-full bg-slate-800 border border-slate-700 rounded-2xl p-4 text-sm focus:border-blue-500 outline-none transition-all"></textarea>
+        </div>
+
+        <div class="space-y-3">
+            <button onclick="enviarWhatsApp()" class="w-full bg-green-600 hover:bg-green-500 py-4 rounded-2xl font-black text-lg flex items-center justify-center gap-3 transition-all shadow-lg shadow-green-900/30">
+                <i class="fa-brands fa-whatsapp text-2xl"></i>
+                FECHAR PEDIDO NO WHATSAPP
+            </button>
+            <button onclick="window.location.href='index.html'" class="w-full bg-transparent border border-slate-800 hover:bg-slate-800 py-3 rounded-2xl font-bold text-slate-400 transition-all text-sm uppercase">
+                <i class="fa-solid fa-arrow-left mr-2"></i> Continuar Escolhendo
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const cart = JSON.parse(localStorage.getItem('tecnoZefe_cart')) || [];
+        let totalCalculado = 0;
+
+        const listaDiv = document.getElementById('lista-carrinho');
+        const subtotalSpan = document.getElementById('subtotal');
+        const totalSpan = document.getElementById('total-final');
+
+        if (cart.length === 0) {
+            listaDiv.innerHTML = `<div class="text-center py-10 text-slate-500 italic">Seu carrinho está vazio</div>`;
+        } else {
+            cart.forEach(item => {
+                totalCalculado += parseFloat(item.price);
+                listaDiv.innerHTML += `
+                    <div class="flex justify-between items-center bg-slate-800/40 p-3 rounded-xl border border-slate-800">
+                        <div>
+                            <p class="font-bold text-white text-sm">${item.name}</p>
+                            <p class="text-[10px] text-slate-500 uppercase">TecnoZefe Item</p>
+                        </div>
+                        <span class="text-blue-400 font-black italic text-sm">R$ ${parseFloat(item.price).toFixed(2).replace('.', ',')}</span>
+                    </div>
+                `;
+            });
+        }
+
+        const formatado = totalCalculado.toFixed(2).replace('.', ',');
+        subtotalSpan.innerText = `R$ ${formatado}`;
+        totalSpan.innerText = `R$ ${formatado}`;
+
+        function enviarWhatsApp() {
+            if (cart.length === 0) {
+                alert("Seu carrinho está vazio!");
+                return;
+            }
+
+            const rua = document.getElementById('entrega-rua').value;
+            const bairro = document.getElementById('entrega-bairro').value;
+            const obs = document.getElementById('cliente-obs').value;
+            const pagamento = document.querySelector('input[name="pagamento"]:checked').value;
+            
+            if(!rua || !bairro) {
+                alert("🚨 Por favor, preencha o endereço completo para entrega!");
+                return;
+            }
+
+            const phone = "5521986386198"; 
+            
+            let mensagem = `* NOVO PEDIDO - TECNOZEFE*\n`;
+            mensagem += `----------------------------\n\n`;
+            
+            cart.forEach((item, index) => {
+                mensagem += `${index + 1}. *${item.name}* - R$ ${parseFloat(item.price).toFixed(2)}\n`;
+            });
+
+            mensagem += `\n----------------------------\n`;
+            mensagem += `*TOTAL:* R$ ${totalCalculado.toFixed(2).replace('.', ',')}\n`;
+            mensagem += `*PAGAMENTO:* ${pagamento}\n`;
+            mensagem += `*ENDEREÇO:* ${rua}\n`;
+            mensagem += `*BAIRRO:* ${bairro}\n`;
+            mensagem += `*OBS/TROCO:* ${obs || 'Nenhuma'}\n\n`;
+            mensagem += `_Pedido realizado via Site TecnoZefe_`;
+
+            window.open(`https://wa.me/${phone}?text=${encodeURIComponent(mensagem)}`);
+        }
+    </script>
+</body>
+</html>
