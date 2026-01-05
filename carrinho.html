@@ -103,39 +103,66 @@
     </div>
 
     <script>
-        const cart = JSON.parse(localStorage.getItem('tecnoZefe_cart')) || [];
-        let totalCalculado = 0;
+        // Função principal para renderizar o carrinho
+        function renderCart() {
+            const cart = JSON.parse(localStorage.getItem('tecnoZefe_cart')) || [];
+            const listaDiv = document.getElementById('lista-carrinho');
+            const subtotalSpan = document.getElementById('subtotal');
+            const totalSpan = document.getElementById('total-final');
+            let totalCalculado = 0;
 
-        const listaDiv = document.getElementById('lista-carrinho');
-        const subtotalSpan = document.getElementById('subtotal');
-        const totalSpan = document.getElementById('total-final');
+            listaDiv.innerHTML = ''; // Limpa a lista antes de renderizar
 
-        if (cart.length === 0) {
-            listaDiv.innerHTML = `<div class="text-center py-10 text-slate-500 italic">Seu carrinho está vazio</div>`;
-        } else {
-            cart.forEach(item => {
-                totalCalculado += parseFloat(item.price);
-                listaDiv.innerHTML += `
-                    <div class="flex justify-between items-center bg-slate-800/40 p-3 rounded-xl border border-slate-800">
-                        <div>
-                            <p class="font-bold text-white text-sm">${item.name}</p>
-                            <p class="text-[10px] text-slate-500 uppercase">TecnoZefe Item</p>
+            if (cart.length === 0) {
+                listaDiv.innerHTML = `<div class="text-center py-10 text-slate-500 italic">Seu carrinho está vazio</div>`;
+                subtotalSpan.innerText = "R$ 0,00";
+                totalSpan.innerText = "R$ 0,00";
+            } else {
+                cart.forEach((item, index) => {
+                    totalCalculado += parseFloat(item.price);
+                    
+                    // Adiciona o item com o botão de excluir (X vermelho)
+                    listaDiv.innerHTML += `
+                        <div class="flex justify-between items-center bg-slate-800/40 p-3 rounded-xl border border-slate-800 group hover:border-slate-700 transition-all">
+                            <div class="flex-grow">
+                                <p class="font-bold text-white text-sm">${item.name}</p>
+                                <p class="text-[10px] text-slate-500 uppercase">TecnoZefe Item</p>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <span class="text-blue-400 font-black italic text-sm">R$ ${parseFloat(item.price).toFixed(2).replace('.', ',')}</span>
+                                
+                                <button onclick="removerItem(${index})" class="text-slate-600 hover:text-red-500 transition-colors p-2" title="Remover item">
+                                    <i class="fa-solid fa-xmark"></i>
+                                </button>
+                            </div>
                         </div>
-                        <span class="text-blue-400 font-black italic text-sm">R$ ${parseFloat(item.price).toFixed(2).replace('.', ',')}</span>
-                    </div>
-                `;
-            });
+                    `;
+                });
+
+                const formatado = totalCalculado.toFixed(2).replace('.', ',');
+                subtotalSpan.innerText = `R$ ${formatado}`;
+                totalSpan.innerText = `R$ ${formatado}`;
+            }
         }
 
-        const formatado = totalCalculado.toFixed(2).replace('.', ',');
-        subtotalSpan.innerText = `R$ ${formatado}`;
-        totalSpan.innerText = `R$ ${formatado}`;
+        // Função para remover um item específico
+        window.removerItem = (index) => {
+            let cart = JSON.parse(localStorage.getItem('tecnoZefe_cart')) || [];
+            cart.splice(index, 1); // Remove o item do array
+            localStorage.setItem('tecnoZefe_cart', JSON.stringify(cart)); // Salva o novo array
+            renderCart(); // Atualiza a tela
+        };
 
         function enviarWhatsApp() {
+            const cart = JSON.parse(localStorage.getItem('tecnoZefe_cart')) || [];
+            
             if (cart.length === 0) {
                 alert("Seu carrinho está vazio!");
                 return;
             }
+
+            // Recalcula o total para garantir que está atualizado
+            let totalEnvio = cart.reduce((acc, item) => acc + item.price, 0);
 
             const rua = document.getElementById('entrega-rua').value;
             const bairro = document.getElementById('entrega-bairro').value;
@@ -149,7 +176,7 @@
 
             const phone = "5521986386198"; 
             
-            let mensagem = `* NOVO PEDIDO - TECNOZEFE*\n`;
+            let mensagem = `*🛍️ NOVO PEDIDO - TECNOZEFE*\n`;
             mensagem += `----------------------------\n\n`;
             
             cart.forEach((item, index) => {
@@ -157,15 +184,18 @@
             });
 
             mensagem += `\n----------------------------\n`;
-            mensagem += `*TOTAL:* R$ ${totalCalculado.toFixed(2).replace('.', ',')}\n`;
-            mensagem += `*PAGAMENTO:* ${pagamento}\n`;
-            mensagem += `*ENDEREÇO:* ${rua}\n`;
-            mensagem += `*BAIRRO:* ${bairro}\n`;
-            mensagem += `*OBS/TROCO:* ${obs || 'Nenhuma'}\n\n`;
+            mensagem += `*💰 TOTAL:* R$ ${totalEnvio.toFixed(2).replace('.', ',')}\n`;
+            mensagem += `*💳 PAGAMENTO:* ${pagamento}\n`;
+            mensagem += `*📍 ENDEREÇO:* ${rua}\n`;
+            mensagem += `*🏙️ BAIRRO:* ${bairro}\n`;
+            mensagem += `*📝 OBS/TROCO:* ${obs || 'Nenhuma'}\n\n`;
             mensagem += `_Pedido realizado via Site TecnoZefe_`;
 
             window.open(`https://wa.me/${phone}?text=${encodeURIComponent(mensagem)}`);
         }
+
+        // Inicializa o carrinho ao abrir a página
+        renderCart();
     </script>
 </body>
 </html>
